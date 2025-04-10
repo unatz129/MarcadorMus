@@ -211,19 +211,17 @@
   </style>
 </head>
 <body>
-  <!-- BOTONES SUPERIORES -->
   <div class="top-buttons">
     <button onclick="alert('Menú')">☰ Menú</button>
     <button onclick="abrirModal()">📘 Reglas</button>
   </div>
 
-  <!-- CONTENIDO PRINCIPAL -->
   <div class="container">
     <!-- EQUIPO 1 -->
     <div class="team-container">
       <div class="team-box">
         <h3 id="team1-name" onclick="changeTeamName('team1-name')">Equipo 1</h3>
-        <div class="team-score" id="score-left" onclick="updateScore('left', 1)">0</div>
+        <div class="team-score score-box" id="score-left" onclick="updateScore('left', 1)">0</div>
         <button onclick="updateScore('left', 1)">+1</button>
         <button onclick="updateScore('left', -1)">-1</button>
         <button onclick="updateScore('left', 5)">+5</button>
@@ -236,10 +234,10 @@
       </div>
     </div>
 
-    <!-- ZONA CENTRAL -->
+    <!-- CENTRO -->
     <div class="box">
       <h3>GRANDES</h3>
-      <div class="score" id="score-center1" onclick="updateScore('center1', 2)">0</div>
+      <div class="score score-box" id="score-center1" onclick="updateScore('center1', 2)">0</div>
       <div class="sub-box">
         <button onclick="transferScore('center1', 'left')">⬅</button>
         <div>
@@ -251,7 +249,7 @@
       </div>
 
       <h3>PEQUEÑAS</h3>
-      <div class="score" id="score-center2" onclick="updateScore('center2', 2)">0</div>
+      <div class="score score-box" id="score-center2" onclick="updateScore('center2', 2)">0</div>
       <div class="sub-box">
         <button onclick="transferScore('center2', 'left')">⬅</button>
         <div>
@@ -263,7 +261,7 @@
       </div>
 
       <h3>PARES</h3>
-      <div class="score" id="score-center3" onclick="updateScore('center3', 2)">0</div>
+      <div class="score score-box" id="score-center3" onclick="updateScore('center3', 2)">0</div>
       <div class="sub-box">
         <button onclick="transferScore('center3', 'left')">⬅</button>
         <div>
@@ -275,7 +273,7 @@
       </div>
 
       <h3>JUEGO</h3>
-      <div class="score" id="score-center4" onclick="updateScore('center4', 2)">0</div>
+      <div class="score score-box" id="score-center4" onclick="updateScore('center4', 2)">0</div>
       <div class="sub-box">
         <button onclick="transferScore('center4', 'left')">⬅</button>
         <div>
@@ -291,7 +289,7 @@
     <div class="team-container">
       <div class="team-box">
         <h3 id="team2-name" onclick="changeTeamName('team2-name')">Equipo 2</h3>
-        <div class="team-score" id="score-right" onclick="updateScore('right', 1)">0</div>
+        <div class="team-score score-box" id="score-right" onclick="updateScore('right', 1)">0</div>
         <button onclick="updateScore('right', 1)">+1</button>
         <button onclick="updateScore('right', -1)">-1</button>
         <button onclick="updateScore('right', 5)">+5</button>
@@ -305,10 +303,9 @@
     </div>
   </div>
 
-  <!-- BOTÓN DE RESET -->
   <button class="reset-button" onclick="resetGame()">🔄</button>
 
-  <!-- MODAL DE REGLAS -->
+  <!-- MODAL -->
   <div id="modal-reglas" class="modal">
     <div class="modal-contenido">
       <span class="cerrar" onclick="cerrarModal()">&times;</span>
@@ -350,68 +347,72 @@
   </div>
 
   <script>
-    // Funciones del juego
     function updateScore(team, points) {
       const score = document.getElementById(`score-${team}`);
       let currentScore = parseInt(score.innerText);
       currentScore += points;
-
-      if (currentScore < 0) {
-        currentScore = 0;  // No permitir puntajes negativos
-      }
-      
+      if (currentScore < 0) currentScore = 0;
       score.innerText = currentScore;
+      localStorage.setItem(`score-${team}`, currentScore);
     }
 
     function updateExtra(teamExtra, points) {
       const extraScore = document.getElementById(`score-${teamExtra}`);
       let currentExtra = parseInt(extraScore.innerText);
       currentExtra += points;
-
-      if (currentExtra < 0) {
-        currentExtra = 0;  // No permitir puntajes negativos
-      }
-
+      if (currentExtra < 0) currentExtra = 0;
       extraScore.innerText = currentExtra;
+      localStorage.setItem(`score-${teamExtra}`, currentExtra);
     }
 
     function transferScore(from, to) {
       const fromScore = document.getElementById(`score-${from}`);
       const toScore = document.getElementById(`score-${to}`);
-      let fromScoreValue = parseInt(fromScore.innerText);
-      let toScoreValue = parseInt(toScore.innerText);
-
-      if (fromScoreValue > 0) {
-        toScoreValue += fromScoreValue;
-        fromScoreValue = 0;
+      let fromVal = parseInt(fromScore.innerText);
+      let toVal = parseInt(toScore.innerText);
+      if (fromVal > 0) {
+        toVal += fromVal;
+        fromVal = 0;
       }
-
-      fromScore.innerText = fromScoreValue;
-      toScore.innerText = toScoreValue;
+      fromScore.innerText = fromVal;
+      toScore.innerText = toVal;
+      localStorage.setItem(`score-${from}`, fromVal);
+      localStorage.setItem(`score-${to}`, toVal);
     }
 
-    function changeTeamName(team) {
+    function changeTeamName(teamId) {
       const newName = prompt("Nuevo nombre del equipo:");
-      document.getElementById(team).innerText = newName;
+      if (newName) {
+        document.getElementById(teamId).innerText = newName;
+        localStorage.setItem(teamId, newName);
+      }
     }
 
     function resetGame() {
-      // Resetear solo las grandes, pequeñas, pares y juego
-      const scores = document.querySelectorAll('.team-score, .extra-score');
-      scores.forEach(score => score.innerText = "0");
-
-      // Mantener las partidas ganadas igual (no se resetean)
+      const scores = document.querySelectorAll('.score-box');
+      scores.forEach(score => {
+        score.innerText = "0";
+        localStorage.setItem(score.id, "0");
+      });
     }
 
-    // Mostrar reglas
     function abrirModal() {
       document.getElementById('modal-reglas').style.display = 'block';
     }
 
-    // Cerrar reglas
     function cerrarModal() {
       document.getElementById('modal-reglas').style.display = 'none';
     }
+
+    function cargarDesdeLocalStorage() {
+      const elementos = document.querySelectorAll('[id^="score-"], #team1-name, #team2-name');
+      elementos.forEach(el => {
+        const guardado = localStorage.getItem(el.id);
+        if (guardado !== null) el.innerText = guardado;
+      });
+    }
+
+    window.onload = cargarDesdeLocalStorage;
   </script>
 </body>
 </html>
