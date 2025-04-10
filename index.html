@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mus Online</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background: rgb(36, 161, 36);
+      position: relative;
+    }
+
+    .top-buttons {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      right: 20px;
+      display: flex;
+      justify-content: space-between;
+      z-index: 1000;
+    }
+
+    .top-buttons button {
+      background: gray;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 60px;
+      width: 100%;
+      max-width: 1400px;
+    }
+
+    .team-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .team-box {
+      width: 100%;
+      padding: 40px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    .team-score {
+      font-size: 60px;
+      font-weight: bold;
+      margin: 20px 0;
+      padding: 20px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+    }
+
+    .sub-box {
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #f0f0f0;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .sub-box div {
+      display: flex;
+      justify-content: space-evenly;
+      flex-grow: 1;
+    }
+
+    .sub-box button,
+    .team-box button {
+      margin: 0 10px;
+      padding: 10px 15px;
+      background: gray;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .score {
+      font-size: 24px;
+      font-weight: bold;
+      background-color: white;
+      padding: 10px;
+      border-radius: 8px;
+      width: 50px;
+      height: 50px;
+      margin: 0 auto;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .reset-button {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      background: gray;
+      color: white;
+      border: none;
+      padding: 15px;
+      font-size: 20px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    h3 {
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .extra-counter {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 10px;
+      gap: 10px;
+    }
+
+    .extra-counter button {
+      padding: 8px 12px;
+      background: gray;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .extra-score {
+      font-size: 20px;
+      font-weight: bold;
+      background: white;
+      padding: 10px;
+      border-radius: 8px;
+      width: 50px;
+      text-align: center;
+      box-shadow: 0 0 5px rgba(0,0,0,0.2);
+    }
+
+    h4 {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #fff;
+      text-align: center;
+    }
+
+    .box {
+      min-width: 300px;
+    }
+
+    /* MODAL */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.5);
+    }
+
+    .modal-contenido {
+      background-color: white;
+      margin: 10% auto;
+      padding: 30px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 500px;
+      position: relative;
+      font-size: 16px;
+    }
+
+    .cerrar {
+      color: #aaa;
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .cerrar:hover {
+      color: black;
+    }
+  </style>
+</head>
+<body>
+  <!-- BOTONES SUPERIORES -->
+  <div class="top-buttons">
+    <button onclick="alert('Menú')">☰ Menú</button>
+    <button onclick="abrirModal()">📘 Reglas</button>
+  </div>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <div class="container">
+    <!-- EQUIPO 1 -->
+    <div class="team-container">
+      <div class="team-box">
+        <h3 id="team1-name" onclick="changeTeamName('team1-name')">Equipo 1</h3>
+        <div class="team-score" id="score-left" onclick="updateScore('left', 1)">0</div>
+        <button onclick="updateScore('left', 1)">+1</button>
+        <button onclick="updateScore('left', -1)">-1</button>
+        <button onclick="updateScore('left', 5)">+5</button>
+      </div>
+      <h4>Rondas ganadas</h4>
+      <div class="extra-counter">
+        <button onclick="updateExtra('leftExtra', -1)">-</button>
+        <div class="extra-score" id="score-leftExtra">0</div>
+        <button onclick="updateExtra('leftExtra', 1)">+</button>
+      </div>
+    </div>
+
+    <!-- ZONA CENTRAL -->
+    <div class="box">
+      <h3>GRANDES</h3>
+      <div class="score" id="score-center1" onclick="updateScore('center1', 2)">0</div>
+      <div class="sub-box">
+        <button onclick="transferScore('center1', 'left')">⬅</button>
+        <div>
+          <button onclick="updateScore('center1', 1)">+1</button>
+          <button onclick="updateScore('center1', -1)">-1</button>
+          <button onclick="updateScore('center1', 5)">+5</button>
+        </div>
+        <button onclick="transferScore('center1', 'right')">➡</button>
+      </div>
+
+      <h3>PEQUEÑAS</h3>
+      <div class="score" id="score-center2" onclick="updateScore('center2', 2)">0</div>
+      <div class="sub-box">
+        <button onclick="transferScore('center2', 'left')">⬅</button>
+        <div>
+          <button onclick="updateScore('center2', 1)">+1</button>
+          <button onclick="updateScore('center2', -1)">-1</button>
+          <button onclick="updateScore('center2', 5)">+5</button>
+        </div>
+        <button onclick="transferScore('center2', 'right')">➡</button>
+      </div>
+
+      <h3>PARES</h3>
+      <div class="score" id="score-center3" onclick="updateScore('center3', 2)">0</div>
+      <div class="sub-box">
+        <button onclick="transferScore('center3', 'left')">⬅</button>
+        <div>
+          <button onclick="updateScore('center3', 1)">+1</button>
+          <button onclick="updateScore('center3', -1)">-1</button>
+          <button onclick="updateScore('center3', 5)">+5</button>
+        </div>
+        <button onclick="transferScore('center3', 'right')">➡</button>
+      </div>
+
+      <h3>JUEGO</h3>
+      <div class="score" id="score-center4" onclick="updateScore('center4', 2)">0</div>
+      <div class="sub-box">
+        <button onclick="transferScore('center4', 'left')">⬅</button>
+        <div>
+          <button onclick="updateScore('center4', 1)">+1</button>
+          <button onclick="updateScore('center4', -1)">-1</button>
+          <button onclick="updateScore('center4', 5)">+5</button>
+        </div>
+        <button onclick="transferScore('center4', 'right')">➡</button>
+      </div>
+    </div>
+
+    <!-- EQUIPO 2 -->
+    <div class="team-container">
+      <div class="team-box">
+        <h3 id="team2-name" onclick="changeTeamName('team2-name')">Equipo 2</h3>
+        <div class="team-score" id="score-right" onclick="updateScore('right', 1)">0</div>
+        <button onclick="updateScore('right', 1)">+1</button>
+        <button onclick="updateScore('right', -1)">-1</button>
+        <button onclick="updateScore('right', 5)">+5</button>
+      </div>
+      <h4>Rondas ganadas</h4>
+      <div class="extra-counter">
+        <button onclick="updateExtra('rightExtra', -1)">-</button>
+        <div class="extra-score" id="score-rightExtra">0</div>
+        <button onclick="updateExtra('rightExtra', 1)">+</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTÓN DE RESET -->
+  <button class="reset-button" onclick="resetGame()">🔄</button>
+
+  <!-- MODAL DE REGLAS -->
+  <div id="modal-reglas" class="modal">
+    <div class="modal-contenido">
+      <span class="cerrar" onclick="cerrarModal()">&times;</span>
+      <h2>Reglas del Mus</h2>
+      <p><strong>Objetivo del juego</strong><br>
+        Ganar ocho amarrakos (40 piedras) en uno o varios juegos parciales. También puede jugarse a seis amarrakos (30 piedras).
+      </p>
+      <p><strong>Baraja de cartas</strong><br>
+        Es un juego para el que se emplea una baraja española de 40 cartas.
+      </p>
+      <p><strong>Número de jugadores</strong><br>
+        Puede jugarse individualmente entre dos o más jugadores hasta un máximo de seis, o entre cuatro o seis, formando dos campos contrarios de dos y tres jugadores respectivamente. La partida más interesante y la que más se juega es la de cuatro jugadores, jugando por parejas, cuyo reglamento es el que vamos a explicar.
+      </p>
+      <p><strong>Orden y valor de las cartas</strong><br>
+        El orden de las cartas, de mayor a menor, es el siguiente: rey o tres, caballo, sota, siete, seis, cinco, cuatro y dos o as. No hay triunfo ni distinción de palos.
+      </p>
+      <p><strong>El valor de las cartas</strong><br>
+        El valor de las cartas, en cualquiera de los cuatro palos, es el siguiente: cada rey, tres, caballo o sota vale 10 puntos; las demás cartas, su valor natural representado por el índice, excepto los doses, que, como los ases, valen un punto. Los reyes tienen el mismo valor que los treses, y los doses igual que los ases, lo que equivale a jugar con 8 reyes y 8 ases. Sin embargo, también puede jugarse sólo con los 4 reyes y los 4 ases, conservando, en este caso, los treses y doses su valor natural.
+      </p>
+      <p><strong>Distribución de las cartas</strong><br>
+        Cada jugador toma una carta. Los jugadores que tengan las cartas mayores juegan contra los otros dos jugadores que tengan las cartas menores. Quien sacó la carta más alta es el jugador “mano”, sentándose frente a él su compañero, y a su derecha, el jugador contrario que sacó la carta mayor.
+      </p>
+      <p><strong>El jugador situado a la izquierda del “mano”</strong><br>
+        Después de barajar las cartas, las ofrecerá a cortar al jugador de su izquierda, quien al cortar no podrá levantar ni dejar menos de 3 cartas. A continuación, distribuirá cuatro cartas a cada jugador, de una en una, comenzando por el jugador “mano”. La dirección o sentido para dar las cartas, es de derecha a izquierda.
+      </p>
+      <p><strong>El descarte</strong><br>
+        El jugador “mano” iniciará el juego, optando por no ir al descarte, jugando con sus cuatro cartas iniciales, en cuyo caso dirá “No hay mus” o por mejorar su jugada, yendo al descarte, diciendo “Mus”.
+      </p>
+      <p><strong>Jugadas del mus</strong><br>
+        Cada jugador, con sus 4 cartas, podrá formar las siguientes jugadas:
+        <ul>
+          <li><strong>Grande:</strong> Consiste en tener cartas lo más altas posible, según su orden.</li>
+          <li><strong>Chica:</strong> Es una jugada inversa a la anterior, que consiste en tener cartas lo más bajas posible.</li>
+          <li><strong>Par:</strong> Se juega cuando un jugador tiene 2 cartas del mismo valor (pares).</li>
+          <li><strong>Juego:</strong> El juego se puede llevar a cabo cuando las cartas sumen 31 o más puntos.</li>
+        </ul>
+      </p>
+    </div>
+  </div>
+
+  <script>
+    // Funciones del juego
+    function updateScore(team, points) {
+      const score = document.getElementById(`score-${team}`);
+      let currentScore = parseInt(score.innerText);
+      currentScore += points;
+
+      if (currentScore < 0) {
+        currentScore = 0;  // No permitir puntajes negativos
+      }
+      
+      score.innerText = currentScore;
+    }
+
+    function updateExtra(teamExtra, points) {
+      const extraScore = document.getElementById(`score-${teamExtra}`);
+      let currentExtra = parseInt(extraScore.innerText);
+      currentExtra += points;
+
+      if (currentExtra < 0) {
+        currentExtra = 0;  // No permitir puntajes negativos
+      }
+
+      extraScore.innerText = currentExtra;
+    }
+
+    function transferScore(from, to) {
+      const fromScore = document.getElementById(`score-${from}`);
+      const toScore = document.getElementById(`score-${to}`);
+      let fromScoreValue = parseInt(fromScore.innerText);
+      let toScoreValue = parseInt(toScore.innerText);
+
+      if (fromScoreValue > 0) {
+        toScoreValue += fromScoreValue;
+        fromScoreValue = 0;
+      }
+
+      fromScore.innerText = fromScoreValue;
+      toScore.innerText = toScoreValue;
+    }
+
+    function changeTeamName(team) {
+      const newName = prompt("Nuevo nombre del equipo:");
+      document.getElementById(team).innerText = newName;
+    }
+
+    function resetGame() {
+      // Resetear solo las grandes, pequeñas, pares y juego
+      const scores = document.querySelectorAll('.team-score, .extra-score');
+      scores.forEach(score => score.innerText = "0");
+
+      // Mantener las partidas ganadas igual (no se resetean)
+    }
+
+    // Mostrar reglas
+    function abrirModal() {
+      document.getElementById('modal-reglas').style.display = 'block';
+    }
+
+    // Cerrar reglas
+    function cerrarModal() {
+      document.getElementById('modal-reglas').style.display = 'none';
+    }
+  </script>
+</body>
+</html>
