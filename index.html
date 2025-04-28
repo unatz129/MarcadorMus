@@ -14,7 +14,6 @@
       background: rgb(36, 161, 36);
       position: relative;
     }
-
     .top-buttons {
       position: absolute;
       top: 20px;
@@ -24,7 +23,6 @@
       justify-content: space-between;
       z-index: 1000;
     }
-
     .top-buttons button {
       background: gray;
       color: white;
@@ -34,7 +32,6 @@
       font-size: 16px;
       cursor: pointer;
     }
-
     .container {
       display: flex;
       justify-content: center;
@@ -43,13 +40,11 @@
       width: 100%;
       max-width: 1400px;
     }
-
     .team-container {
       display: flex;
       flex-direction: column;
       align-items: center;
     }
-
     .team-box {
       width: 100%;
       padding: 40px;
@@ -58,7 +53,6 @@
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       text-align: center;
     }
-
     .team-score {
       font-size: 60px;
       font-weight: bold;
@@ -69,7 +63,6 @@
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
       cursor: pointer;
     }
-
     .sub-box {
       margin-top: 20px;
       display: flex;
@@ -80,13 +73,11 @@
       border-radius: 10px;
       box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
     }
-
     .sub-box div {
       display: flex;
       justify-content: space-evenly;
       flex-grow: 1;
     }
-
     .sub-box button,
     .team-box button {
       margin: 0 10px;
@@ -97,7 +88,6 @@
       border-radius: 5px;
       cursor: pointer;
     }
-
     .score {
       font-size: 24px;
       font-weight: bold;
@@ -113,7 +103,6 @@
       align-items: center;
       cursor: pointer;
     }
-
     .reset-button {
       position: absolute;
       bottom: 20px;
@@ -126,12 +115,10 @@
       border-radius: 50%;
       cursor: pointer;
     }
-
     h3 {
       text-align: center;
       cursor: pointer;
     }
-
     .extra-counter {
       display: flex;
       justify-content: center;
@@ -139,7 +126,6 @@
       margin-top: 10px;
       gap: 10px;
     }
-
     .extra-counter button {
       padding: 8px 12px;
       background: gray;
@@ -148,7 +134,6 @@
       border-radius: 5px;
       cursor: pointer;
     }
-
     .extra-score {
       font-size: 20px;
       font-weight: bold;
@@ -159,18 +144,15 @@
       text-align: center;
       box-shadow: 0 0 5px rgba(0,0,0,0.2);
     }
-
     h4 {
       margin-top: 20px;
       font-size: 18px;
       color: #fff;
       text-align: center;
     }
-
     .box {
       min-width: 300px;
     }
-
     /* MODAL */
     .modal {
       display: none;
@@ -183,7 +165,6 @@
       overflow: auto;
       background-color: rgba(0,0,0,0.5);
     }
-
     .modal-contenido {
       background-color: white;
       margin: 10% auto;
@@ -194,7 +175,6 @@
       position: relative;
       font-size: 16px;
     }
-
     .cerrar {
       color: #aaa;
       position: absolute;
@@ -204,7 +184,6 @@
       font-weight: bold;
       cursor: pointer;
     }
-
     .cerrar:hover {
       color: black;
     }
@@ -212,7 +191,7 @@
 </head>
 <body>
   <div class="top-buttons">
-    <button onclick="alert('Menú')">☰ Menú</button>
+    <button onclick="mostrarSenias()">👋 Señas</button>
     <button onclick="abrirModal()">📘 Reglas</button>
   </div>
 
@@ -346,6 +325,7 @@
     </div>
   </div>
 
+
   <script>
     function updateScore(team, points) {
       const score = document.getElementById(`score-${team}`);
@@ -410,6 +390,19 @@
         const guardado = localStorage.getItem(el.id);
         if (guardado !== null) el.innerText = guardado;
       });
+    }
+
+    function mostrarSenias() {
+      alert(`Dos cerdos: morderse el labio inferior.
+Dos pitos: sacar la lengua.
+Tres pitos: sacar la lengua por un lateral.
+Tres cerdos: morderse un lateral del labio inferior.
+Medias: torcer la boca hacia un lado con la boca cerrada.
+Duples: levantar las cejas.
+Juego con treinta y una: guiñar un ojo.
+Solomillo (tres cerdos y un pito): beso sin sonido.
+Ciego (no llevo nada): cerrar los ojos.
+Treinta al punto: levantar los dos hombros.`);
     }
 
     window.onload = cargarDesdeLocalStorage;
